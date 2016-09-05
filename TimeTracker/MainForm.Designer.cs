@@ -28,13 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.trackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newDayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btnNewJobItem = new System.Windows.Forms.Button();
+            this.jobItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.jobItemIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.startDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.endDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.billToDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.requestedByDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.timeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estimateIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.developerCodeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.customerIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jobItemBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -66,10 +79,23 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.jobItemIdDataGridViewTextBoxColumn,
+            this.startDateDataGridViewTextBoxColumn,
+            this.endDateDataGridViewTextBoxColumn,
+            this.billToDataGridViewTextBoxColumn,
+            this.descriptionDataGridViewTextBoxColumn,
+            this.requestedByDataGridViewTextBoxColumn,
+            this.timeDataGridViewTextBoxColumn,
+            this.estimateIdDataGridViewTextBoxColumn,
+            this.developerCodeDataGridViewTextBoxColumn,
+            this.customerIdDataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.jobItemBindingSource;
             this.dataGridView1.Location = new System.Drawing.Point(12, 86);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -86,6 +112,81 @@
             this.btnNewJobItem.UseVisualStyleBackColor = true;
             this.btnNewJobItem.Click += new System.EventHandler(this.btnNewJobItem_Click);
             // 
+            // jobItemBindingSource
+            // 
+            this.jobItemBindingSource.DataSource = typeof(TimeTracker.BLL.JobItem);
+            // 
+            // jobItemIdDataGridViewTextBoxColumn
+            // 
+            this.jobItemIdDataGridViewTextBoxColumn.DataPropertyName = "JobItemId";
+            this.jobItemIdDataGridViewTextBoxColumn.HeaderText = "JobItemId";
+            this.jobItemIdDataGridViewTextBoxColumn.Name = "jobItemIdDataGridViewTextBoxColumn";
+            this.jobItemIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.jobItemIdDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // startDateDataGridViewTextBoxColumn
+            // 
+            this.startDateDataGridViewTextBoxColumn.DataPropertyName = "StartDate";
+            this.startDateDataGridViewTextBoxColumn.HeaderText = "StartDate";
+            this.startDateDataGridViewTextBoxColumn.Name = "startDateDataGridViewTextBoxColumn";
+            this.startDateDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // endDateDataGridViewTextBoxColumn
+            // 
+            this.endDateDataGridViewTextBoxColumn.DataPropertyName = "EndDate";
+            this.endDateDataGridViewTextBoxColumn.HeaderText = "EndDate";
+            this.endDateDataGridViewTextBoxColumn.Name = "endDateDataGridViewTextBoxColumn";
+            this.endDateDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // billToDataGridViewTextBoxColumn
+            // 
+            this.billToDataGridViewTextBoxColumn.DataPropertyName = "BillTo";
+            this.billToDataGridViewTextBoxColumn.HeaderText = "BillTo";
+            this.billToDataGridViewTextBoxColumn.Name = "billToDataGridViewTextBoxColumn";
+            this.billToDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // descriptionDataGridViewTextBoxColumn
+            // 
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // requestedByDataGridViewTextBoxColumn
+            // 
+            this.requestedByDataGridViewTextBoxColumn.DataPropertyName = "RequestedBy";
+            this.requestedByDataGridViewTextBoxColumn.HeaderText = "RequestedBy";
+            this.requestedByDataGridViewTextBoxColumn.Name = "requestedByDataGridViewTextBoxColumn";
+            this.requestedByDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // timeDataGridViewTextBoxColumn
+            // 
+            this.timeDataGridViewTextBoxColumn.DataPropertyName = "Time";
+            this.timeDataGridViewTextBoxColumn.HeaderText = "Time";
+            this.timeDataGridViewTextBoxColumn.Name = "timeDataGridViewTextBoxColumn";
+            this.timeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // estimateIdDataGridViewTextBoxColumn
+            // 
+            this.estimateIdDataGridViewTextBoxColumn.DataPropertyName = "EstimateId";
+            this.estimateIdDataGridViewTextBoxColumn.HeaderText = "EstimateId";
+            this.estimateIdDataGridViewTextBoxColumn.Name = "estimateIdDataGridViewTextBoxColumn";
+            this.estimateIdDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // developerCodeDataGridViewTextBoxColumn
+            // 
+            this.developerCodeDataGridViewTextBoxColumn.DataPropertyName = "DeveloperCode";
+            this.developerCodeDataGridViewTextBoxColumn.HeaderText = "DeveloperCode";
+            this.developerCodeDataGridViewTextBoxColumn.Name = "developerCodeDataGridViewTextBoxColumn";
+            this.developerCodeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // customerIdDataGridViewTextBoxColumn
+            // 
+            this.customerIdDataGridViewTextBoxColumn.DataPropertyName = "CustomerId";
+            this.customerIdDataGridViewTextBoxColumn.HeaderText = "CustomerId";
+            this.customerIdDataGridViewTextBoxColumn.Name = "customerIdDataGridViewTextBoxColumn";
+            this.customerIdDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -101,6 +202,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jobItemBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -113,6 +215,17 @@
         private System.Windows.Forms.ToolStripMenuItem newDayToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btnNewJobItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn jobItemIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn startDateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn endDateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn billToDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn requestedByDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn timeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn estimateIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn developerCodeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn customerIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource jobItemBindingSource;
     }
 }
 

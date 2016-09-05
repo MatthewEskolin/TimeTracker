@@ -13,7 +13,8 @@ namespace TimeTracker
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = _DAL.GetDailyItems();
+            //dataGridView1.DataSource = _DAL.GetDailyItems();
+            jobItemBindingSource.DataSource = _DAL.GetDailyItems();
             
             DataGridViewButtonColumn startButton = new DataGridViewButtonColumn();
             startButton.HeaderText = "Start";
@@ -32,7 +33,8 @@ namespace TimeTracker
 
         private void InitializeFormForNewDay()
         {
-            dataGridView1.DataSource = _DAL.GetDailyItems();
+            //dataGridView1.DataSource = _DAL.GetDailyItems();
+            jobItemBindingSource.DataSource = _DAL.GetDailyItems();
 
         }
 
@@ -45,7 +47,10 @@ namespace TimeTracker
 
         private void UpdateGrid(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = _DAL.GetDailyItems();
+            jobItemBindingSource.DataSource = _DAL.GetDailyItems();
+            //dataGridView1.DataSource = _DAL.GetDailyItems();
         }
+
+   
     }
 }
