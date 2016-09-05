@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TimeTrackerContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DCustomers">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="DDevelopers">
+          <Key>
+            <PropertyRef Name="DeveloperId" />
+          </Key>
+          <Property Name="DeveloperId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeveloperName" Type="varchar" MaxLength="200" />
+          <Property Name="DeveloperShortName" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="DJobItems">
+          <Key>
+            <PropertyRef Name="JobItemId" />
+          </Key>
+          <Property Name="JobItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="300" />
+          <Property Name="RequestorId" Type="int" />
+          <Property Name="Time" Type="bigint" />
+          <Property Name="EstimateId" Type="int" />
+          <Property Name="DeveloperCode" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="DJobTimings">
+          <Key>
+            <PropertyRef Name="JobTimingId" />
+          </Key>
+          <Property Name="JobTimingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobItemId" Type="int" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="EndTime" Type="datetime" />
+          <Property Name="DeveloperId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DRequestors">
+          <Key>
+            <PropertyRef Name="RequestorId" />
+          </Key>
+          <Property Name="RequestorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestorName" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK_Developers_DeveloperId">
+          <End Role="DDevelopers" Type="Self.DDevelopers" Multiplicity="1" />
+          <End Role="DJobTimings" Type="Self.DJobTimings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DDevelopers">
+              <PropertyRef Name="DeveloperId" />
+            </Principal>
+            <Dependent Role="DJobTimings">
+              <PropertyRef Name="DeveloperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DJobItems_RequestorId">
+          <End Role="DRequestors" Type="Self.DRequestors" Multiplicity="0..1" />
+          <End Role="DJobItems" Type="Self.DJobItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DRequestors">
+              <PropertyRef Name="RequestorId" />
+            </Principal>
+            <Dependent Role="DJobItems">
+              <PropertyRef Name="RequestorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JobItems_CustomId">
+          <End Role="DCustomers" Type="Self.DCustomers" Multiplicity="0..1" />
+          <End Role="DJobItems" Type="Self.DJobItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DCustomers">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="DJobItems">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JobItems_JobId">
+          <End Role="DJobItems" Type="Self.DJobItems" Multiplicity="1" />
+          <End Role="DJobTimings" Type="Self.DJobTimings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DJobItems">
+              <PropertyRef Name="JobItemId" />
+            </Principal>
+            <Dependent Role="DJobTimings">
+              <PropertyRef Name="JobItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TimeTrackerContextStoreContainer">
+          <EntitySet Name="DCustomers" EntityType="Self.DCustomers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DDevelopers" EntityType="Self.DDevelopers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DJobItems" EntityType="Self.DJobItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DJobTimings" EntityType="Self.DJobTimings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DRequestors" EntityType="Self.DRequestors" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Developers_DeveloperId" Association="Self.FK_Developers_DeveloperId">
+            <End Role="DDevelopers" EntitySet="DDevelopers" />
+            <End Role="DJobTimings" EntitySet="DJobTimings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DJobItems_RequestorId" Association="Self.FK_DJobItems_RequestorId">
+            <End Role="DRequestors" EntitySet="DRequestors" />
+            <End Role="DJobItems" EntitySet="DJobItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JobItems_CustomId" Association="Self.FK_JobItems_CustomId">
+            <End Role="DCustomers" EntitySet="DCustomers" />
+            <End Role="DJobItems" EntitySet="DJobItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JobItems_JobId" Association="Self.FK_JobItems_JobId">
+            <End Role="DJobItems" EntitySet="DJobItems" />
+            <End Role="DJobTimings" EntitySet="DJobTimings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TimeTrackerContext" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TimeTrackerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DCustomers" EntityType="TimeTrackerContext.DCustomer" />
+          <EntitySet Name="DDevelopers" EntityType="TimeTrackerContext.DDeveloper" />
+          <EntitySet Name="DJobItems" EntityType="TimeTrackerContext.DJobItem" />
+          <EntitySet Name="DJobTimings" EntityType="TimeTrackerContext.DJobTiming" />
+          <AssociationSet Name="FK_JobItems_CustomId" Association="TimeTrackerContext.FK_JobItems_CustomId">
+            <End Role="DCustomer" EntitySet="DCustomers" />
+            <End Role="DJobItem" EntitySet="DJobItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Developers_DeveloperId1" Association="TimeTrackerContext.FK_Developers_DeveloperId1">
+            <End Role="DDeveloper" EntitySet="DDevelopers" />
+            <End Role="DJobTiming" EntitySet="DJobTimings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JobItems_JobId1" Association="TimeTrackerContext.FK_JobItems_JobId1">
+            <End Role="DJobItem" EntitySet="DJobItems" />
+            <End Role="DJobTiming" EntitySet="DJobTimings" />
+          </AssociationSet>
+          <EntitySet Name="DRequestors" EntityType="TimeTrackerContext.DRequestor" />
+          <AssociationSet Name="FK_DJobItems_RequestorId" Association="TimeTrackerContext.FK_DJobItems_RequestorId">
+            <End Role="DRequestor" EntitySet="DRequestors" />
+            <End Role="DJobItem" EntitySet="DJobItems" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DCustomer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DJobItems" Relationship="TimeTrackerContext.FK_JobItems_CustomId" FromRole="DCustomer" ToRole="DJobItem" />
+        </EntityType>
+        <EntityType Name="DDeveloper">
+          <Key>
+            <PropertyRef Name="DeveloperId" />
+          </Key>
+          <Property Name="DeveloperId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeveloperName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DeveloperShortName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DJobTimings" Relationship="TimeTrackerContext.FK_Developers_DeveloperId1" FromRole="DDeveloper" ToRole="DJobTiming" />
+        </EntityType>
+        <EntityType Name="DJobItem">
+          <Key>
+            <PropertyRef Name="JobItemId" />
+          </Key>
+          <Property Name="JobItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Time" Type="Int64" />
+          <Property Name="EstimateId" Type="Int32" />
+          <Property Name="DeveloperCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DCustomer" Relationship="TimeTrackerContext.FK_JobItems_CustomId" FromRole="DJobItem" ToRole="DCustomer" />
+          <NavigationProperty Name="DJobTimings" Relationship="TimeTrackerContext.FK_JobItems_JobId1" FromRole="DJobItem" ToRole="DJobTiming" />
+          <Property Name="RequestorId" Type="Int32" />
+          <NavigationProperty Name="DRequestor" Relationship="TimeTrackerContext.FK_DJobItems_RequestorId" FromRole="DJobItem" ToRole="DRequestor" />
+        </EntityType>
+        <EntityType Name="DJobTiming">
+          <Key>
+            <PropertyRef Name="JobTimingId" />
+          </Key>
+          <Property Name="JobTimingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobItemId" Type="Int32" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="DeveloperId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DDeveloper" Relationship="TimeTrackerContext.FK_Developers_DeveloperId1" FromRole="DJobTiming" ToRole="DDeveloper" />
+          <NavigationProperty Name="DJobItem" Relationship="TimeTrackerContext.FK_JobItems_JobId1" FromRole="DJobTiming" ToRole="DJobItem" />
+        </EntityType>
+        <Association Name="FK_JobItems_CustomId">
+          <End Type="TimeTrackerContext.DCustomer" Role="DCustomer" Multiplicity="0..1" />
+          <End Type="TimeTrackerContext.DJobItem" Role="DJobItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DCustomer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="DJobItem">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Developers_DeveloperId1">
+          <End Type="TimeTrackerContext.DDeveloper" Role="DDeveloper" Multiplicity="1" />
+          <End Type="TimeTrackerContext.DJobTiming" Role="DJobTiming" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DDeveloper">
+              <PropertyRef Name="DeveloperId" />
+            </Principal>
+            <Dependent Role="DJobTiming">
+              <PropertyRef Name="DeveloperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JobItems_JobId1">
+          <End Type="TimeTrackerContext.DJobItem" Role="DJobItem" Multiplicity="1" />
+          <End Type="TimeTrackerContext.DJobTiming" Role="DJobTiming" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DJobItem">
+              <PropertyRef Name="JobItemId" />
+            </Principal>
+            <Dependent Role="DJobTiming">
+              <PropertyRef Name="JobItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DRequestor">
+          <Key>
+            <PropertyRef Name="RequestorId" />
+          </Key>
+          <Property Name="RequestorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestorName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DJobItems" Relationship="TimeTrackerContext.FK_DJobItems_RequestorId" FromRole="DRequestor" ToRole="DJobItem" />
+        </EntityType>
+        <Association Name="FK_DJobItems_RequestorId">
+          <End Type="TimeTrackerContext.DRequestor" Role="DRequestor" Multiplicity="0..1" />
+          <End Type="TimeTrackerContext.DJobItem" Role="DJobItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DRequestor">
+              <PropertyRef Name="RequestorId" />
+            </Principal>
+            <Dependent Role="DJobItem">
+              <PropertyRef Name="RequestorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TimeTrackerContextStoreContainer" CdmEntityContainer="TimeTrackerEntities">
+          <EntitySetMapping Name="DCustomers">
+            <EntityTypeMapping TypeName="TimeTrackerContext.DCustomer">
+              <MappingFragment StoreEntitySet="DCustomers">
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DDevelopers">
+            <EntityTypeMapping TypeName="TimeTrackerContext.DDeveloper">
+              <MappingFragment StoreEntitySet="DDevelopers">
+                <ScalarProperty Name="DeveloperShortName" ColumnName="DeveloperShortName" />
+                <ScalarProperty Name="DeveloperName" ColumnName="DeveloperName" />
+                <ScalarProperty Name="DeveloperId" ColumnName="DeveloperId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DJobItems">
+            <EntityTypeMapping TypeName="TimeTrackerContext.DJobItem">
+              <MappingFragment StoreEntitySet="DJobItems">
+                <ScalarProperty Name="RequestorId" ColumnName="RequestorId" />
+                <ScalarProperty Name="DeveloperCode" ColumnName="DeveloperCode" />
+                <ScalarProperty Name="EstimateId" ColumnName="EstimateId" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="JobItemId" ColumnName="JobItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DJobTimings">
+            <EntityTypeMapping TypeName="TimeTrackerContext.DJobTiming">
+              <MappingFragment StoreEntitySet="DJobTimings">
+                <ScalarProperty Name="DeveloperId" ColumnName="DeveloperId" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="JobItemId" ColumnName="JobItemId" />
+                <ScalarProperty Name="JobTimingId" ColumnName="JobTimingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DRequestors">
+            <EntityTypeMapping TypeName="TimeTrackerContext.DRequestor">
+              <MappingFragment StoreEntitySet="DRequestors">
+                <ScalarProperty Name="RequestorName" ColumnName="RequestorName" />
+                <ScalarProperty Name="RequestorId" ColumnName="RequestorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
