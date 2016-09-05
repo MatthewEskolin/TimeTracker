@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TimeTracker.BLL
 {
     public class JobItem
     {
+
+        public List<JobTiming> JobTimings { get; set; }
+
         public int JobItemId { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public DateTime? EndDate { get; set; }
@@ -18,5 +18,11 @@ namespace TimeTracker.BLL
         public Nullable<int> EstimateId { get; set; }
         public string DeveloperCode { get; set; }
         public int CustomerId { get; set; }
+    }
+    public class JobTiming
+    {
+
+
+
     }
 }

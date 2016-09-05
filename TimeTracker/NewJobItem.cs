@@ -10,6 +10,8 @@ namespace TimeTracker
     {
         private DateTime StartTime = DateTime.Now;
 
+        //public delegate EventHandler FormClosed;
+
         public NewJobItem()
         {
             InitializeComponent();
@@ -85,27 +87,25 @@ namespace TimeTracker
 
             var ctx = new TimeTrackerEntities();
 
-            string selectedRequestor =  cbRequestedBy.GetItemText(cbRequestedBy.SelectedItem);
-            if (selectedRequestor.Length == 0)
+            if (cbRequestedBy.SelectedValue != null)
             {
-                var newRequestor = cbRequestedBy.Text;
-                if (ctx.DRequestors.Any(x => x.RequestorName == newRequestor))
-                {
-                    var custRec = ctx.DRequestors.FirstOrDefault(x => x.RequestorName.ToUpper() == newRequestor.ToUpper());
-                    if (custRec != null) return custRec.RequestorId;
-                }
-                else
-                {
-                    //create new Customer with input text.
-                    var newRec = new DRequestor() {RequestorName = newRequestor};
-                    ctx.DRequestors.Add(newRec);
-                    ctx.SaveChanges();
-                    return newRec.RequestorId;
-                }
+                var selectedRequestor = cbRequestedBy.SelectedValue.ToString();
+                return Int32.Parse(selectedRequestor);
+            }
+
+            var newRequestor = cbRequestedBy.Text;
+            if (ctx.DRequestors.Any(x => x.RequestorName == newRequestor))
+            {
+                var custRec = ctx.DRequestors.FirstOrDefault(x => x.RequestorName.ToUpper() == newRequestor.ToUpper());
+                if (custRec != null) return custRec.RequestorId;
             }
             else
             {
-                return Int32.Parse(cbBillTo.SelectedValue.ToString());
+                //create new Customer with input text.
+                var newRec = new DRequestor() {RequestorName = newRequestor};
+                ctx.DRequestors.Add(newRec);
+                ctx.SaveChanges();
+                return newRec.RequestorId;
             }
 
             throw new DataException("Inconsistent Data.");

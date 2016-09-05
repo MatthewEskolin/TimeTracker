@@ -12,10 +12,26 @@ namespace TimeTracker.DAL
         public static List<JobItem> GetDailyItems()
         {
             var ctx = new TimeTrackerEntities();
-            List<JobItem> rtn = ctx.DJobItems.Where(x => DbFunctions.TruncateTime(x.StartDate.Value) >= DbFunctions.TruncateTime(DateTime.Now)).ToList().Select(x => new JobItem()
+
+            var jobsWithTimingToday = ctx.DJobItems.Where( x => 
+                                                           x.DJobTimings.Any( y => DbFunctions.TruncateTime(y.StartTime.Value) == DbFunctions.TruncateTime(DateTime.Now)) 
+                                                           || DbFunctions.TruncateTime(x.StartDate) == DbFunctions.TruncateTime(DateTime.Now)); 
+            var jobItemsToday = (from jobItems in jobsWithTimingToday
+
+                //from jobTimings in ctx.DJobTimings
+                //    .Where(x => x.JobItemId == jobItems.JobItemId)
+                //    .DefaultIfEmpty()
+
+                select jobItems);
+
+            var result = jobItemsToday.Select(x => new JobItem()
             {
+                JobItemId = x.JobItemId,
+                JobTimings = x.DJobTimings.Select(y => new JobTiming()).ToList(),
+                Description = x.Description
             }).ToList();
-            return rtn;
+
+            return result;
         }
 
         public static List<DCustomer> GetCustomers()
