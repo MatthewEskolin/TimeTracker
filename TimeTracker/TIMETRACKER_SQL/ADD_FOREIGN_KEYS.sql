@@ -11,9 +11,9 @@ DECLARE @sqld varchar(3000)
 
 
 SET @tableName = 'DJobItems'
-SET @primeColumnName = 'RequestorId'
-SET @foreignColumnName = 'RequestorId'
-SET @primeTAbleName = 'DRequestors'
+SET @primeColumnName = 'DeveloperId'
+SET @foreignColumnName = 'DeveloperId'
+SET @primeTAbleName = 'DDevelopers'
 
 
 SET @sqld = 'ALTER TABLE ' + @tableName + ' ADD CONSTRAINT FK_' + @tableName + '_' + @primeColumnName + ' FOREIGN KEY '+ '(' + @foreignColumnName + ')' +

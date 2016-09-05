@@ -32,7 +32,7 @@
           <Property Name="RequestorId" Type="int" />
           <Property Name="Time" Type="bigint" />
           <Property Name="EstimateId" Type="int" />
-          <Property Name="DeveloperCode" Type="varchar" MaxLength="10" />
+          <Property Name="DeveloperId" Type="int" />
         </EntityType>
         <EntityType Name="DJobTimings">
           <Key>
@@ -59,6 +59,18 @@
               <PropertyRef Name="DeveloperId" />
             </Principal>
             <Dependent Role="DJobTimings">
+              <PropertyRef Name="DeveloperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DJobItems_DeveloperId">
+          <End Role="DDevelopers" Type="Self.DDevelopers" Multiplicity="0..1" />
+          <End Role="DJobItems" Type="Self.DJobItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DDevelopers">
+              <PropertyRef Name="DeveloperId" />
+            </Principal>
+            <Dependent Role="DJobItems">
               <PropertyRef Name="DeveloperId" />
             </Dependent>
           </ReferentialConstraint>
@@ -109,6 +121,10 @@
             <End Role="DDevelopers" EntitySet="DDevelopers" />
             <End Role="DJobTimings" EntitySet="DJobTimings" />
           </AssociationSet>
+          <AssociationSet Name="FK_DJobItems_DeveloperId" Association="Self.FK_DJobItems_DeveloperId">
+            <End Role="DDevelopers" EntitySet="DDevelopers" />
+            <End Role="DJobItems" EntitySet="DJobItems" />
+          </AssociationSet>
           <AssociationSet Name="FK_DJobItems_RequestorId" Association="Self.FK_DJobItems_RequestorId">
             <End Role="DRequestors" EntitySet="DRequestors" />
             <End Role="DJobItems" EntitySet="DJobItems" />
@@ -148,6 +164,10 @@
             <End Role="DRequestor" EntitySet="DRequestors" />
             <End Role="DJobItem" EntitySet="DJobItems" />
           </AssociationSet>
+          <AssociationSet Name="FK_DJobItems_DeveloperId" Association="TimeTrackerContext.FK_DJobItems_DeveloperId">
+            <End Role="DDeveloper" EntitySet="DDevelopers" />
+            <End Role="DJobItem" EntitySet="DJobItems" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DCustomer">
           <Key>
@@ -165,6 +185,7 @@
           <Property Name="DeveloperName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="DeveloperShortName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DJobTimings" Relationship="TimeTrackerContext.FK_Developers_DeveloperId1" FromRole="DDeveloper" ToRole="DJobTiming" />
+          <NavigationProperty Name="DJobItems" Relationship="TimeTrackerContext.FK_DJobItems_DeveloperId" FromRole="DDeveloper" ToRole="DJobItem" />
         </EntityType>
         <EntityType Name="DJobItem">
           <Key>
@@ -177,11 +198,12 @@
           <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="Time" Type="Int64" />
           <Property Name="EstimateId" Type="Int32" />
-          <Property Name="DeveloperCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DCustomer" Relationship="TimeTrackerContext.FK_JobItems_CustomId" FromRole="DJobItem" ToRole="DCustomer" />
           <NavigationProperty Name="DJobTimings" Relationship="TimeTrackerContext.FK_JobItems_JobId1" FromRole="DJobItem" ToRole="DJobTiming" />
           <Property Name="RequestorId" Type="Int32" />
           <NavigationProperty Name="DRequestor" Relationship="TimeTrackerContext.FK_DJobItems_RequestorId" FromRole="DJobItem" ToRole="DRequestor" />
+          <Property Name="DeveloperId" Type="Int32" />
+          <NavigationProperty Name="DDeveloper" Relationship="TimeTrackerContext.FK_DJobItems_DeveloperId" FromRole="DJobItem" ToRole="DDeveloper" />
         </EntityType>
         <EntityType Name="DJobTiming">
           <Key>
@@ -251,6 +273,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DJobItems_DeveloperId">
+          <End Type="TimeTrackerContext.DDeveloper" Role="DDeveloper" Multiplicity="0..1" />
+          <End Type="TimeTrackerContext.DJobItem" Role="DJobItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DDeveloper">
+              <PropertyRef Name="DeveloperId" />
+            </Principal>
+            <Dependent Role="DJobItem">
+              <PropertyRef Name="DeveloperId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -277,8 +311,8 @@
           <EntitySetMapping Name="DJobItems">
             <EntityTypeMapping TypeName="TimeTrackerContext.DJobItem">
               <MappingFragment StoreEntitySet="DJobItems">
+                <ScalarProperty Name="DeveloperId" ColumnName="DeveloperId" />
                 <ScalarProperty Name="RequestorId" ColumnName="RequestorId" />
-                <ScalarProperty Name="DeveloperCode" ColumnName="DeveloperCode" />
                 <ScalarProperty Name="EstimateId" ColumnName="EstimateId" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

@@ -29,5 +29,11 @@ namespace TimeTracker.DAL
             var ctx = new TimeTrackerEntities();
             return ctx.DDevelopers.FirstOrDefault(x => x.DeveloperId == devId);
         }
+
+        public static List<DRequestor> GetRequestors()
+        {
+            var ctx = new TimeTrackerEntities();
+            return ctx.DRequestors.OrderBy(x => x.RequestorName).ToList();
+        }
     }
 }

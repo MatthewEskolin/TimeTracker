@@ -18,6 +18,7 @@ namespace TimeTracker.DAL
         public DDeveloper()
         {
             this.DJobTimings = new HashSet<DJobTiming>();
+            this.DJobItems = new HashSet<DJobItem>();
         }
     
         public int DeveloperId { get; set; }
@@ -26,5 +27,7 @@ namespace TimeTracker.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DJobTiming> DJobTimings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DJobItem> DJobItems { get; set; }
     }
 }

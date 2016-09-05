@@ -22,21 +22,21 @@ namespace TimeTracker
             BindCustomers();
             BindDevelopers();
             BindRequestedBy();
-
-
-
         }
 
         private void BindRequestedBy()
         {
-            //initial
-            throw new NotImplementedException();
+            cbRequestedBy.DataSource = _DAL.GetRequestors();
+            cbRequestedBy.DisplayMember = "RequestorName";
+            cbRequestedBy.ValueMember = "RequestorId";
         }
 
         private void BindDevelopers()
         {
             var devId = Properties.Settings.Default.Developer;
             var devRec = _DAL.getDeveloperById(devId);
+            if (devRec != null)
+            {
             lblDeveloperShortName.Text = devRec.DeveloperShortName;
 
             var toolTip = new ToolTip();
@@ -44,6 +44,8 @@ namespace TimeTracker
 
             //toolTip.IsBalloon = true;
             toolTip.SetToolTip(lblDeveloperShortName, devRec.DeveloperName);
+                
+            }
         }
 
         private void BindCustomers()
@@ -55,26 +57,64 @@ namespace TimeTracker
 
         }
 
+
         private void btnSaveAndStart_Click(object sender, EventArgs e)
         {
             var item = new DJobItem
             {
                 StartDate = StartTime,
-                CustomerId = GetCustomerId()
+                CustomerId = GetCustomerId(),
+                RequestorId = GetRequestorId(),
+                Description = tbDescription.Text,
+                EstimateId = null,
+                DeveloperId =Properties.Settings.Default.Developer
             };
 
             var ctx = new TimeTrackerEntities();
             ctx.DJobItems.Add(item);
             ctx.SaveChanges();
 
+            this.Close();
 
+            //TODO Start a new Timing.
+        }
+
+
+        private int GetRequestorId()
+        {
+
+            var ctx = new TimeTrackerEntities();
+
+            string selectedRequestor =  cbRequestedBy.GetItemText(cbRequestedBy.SelectedItem);
+            if (selectedRequestor.Length == 0)
+            {
+                var newRequestor = cbRequestedBy.Text;
+                if (ctx.DRequestors.Any(x => x.RequestorName == newRequestor))
+                {
+                    var custRec = ctx.DRequestors.FirstOrDefault(x => x.RequestorName.ToUpper() == newRequestor.ToUpper());
+                    if (custRec != null) return custRec.RequestorId;
+                }
+                else
+                {
+                    //create new Customer with input text.
+                    var newRec = new DRequestor() {RequestorName = newRequestor};
+                    ctx.DRequestors.Add(newRec);
+                    ctx.SaveChanges();
+                    return newRec.RequestorId;
+                }
+            }
+            else
+            {
+                return Int32.Parse(cbBillTo.SelectedValue.ToString());
+            }
+
+            throw new DataException("Inconsistent Data.");
 
 
         }
 
         private int GetCustomerId()
         {
-            //Create New Customer If does not exist.
             var ctx = new TimeTrackerEntities();
 
             string selectedBillTo = cbBillTo.GetItemText(cbBillTo.SelectedItem);
@@ -93,7 +133,6 @@ namespace TimeTracker
                     ctx.DCustomers.Add(newCustomer);
                     ctx.SaveChanges();
                     return newCustomer.CustomerId;
-
                 }
             }
             else

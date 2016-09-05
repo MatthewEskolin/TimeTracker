@@ -14,6 +14,7 @@
         <AssociationConnector Association="TimeTrackerContext.FK_JobItems_JobId1" />
         <EntityTypeShape EntityType="TimeTrackerContext.DRequestor" Width="1.5" PointX="4.375" PointY="5" />
         <AssociationConnector Association="TimeTrackerContext.FK_DJobItems_RequestorId" />
+        <AssociationConnector Association="TimeTrackerContext.FK_DJobItems_DeveloperId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -27,12 +27,13 @@ namespace TimeTracker.DAL
         public string Description { get; set; }
         public Nullable<long> Time { get; set; }
         public Nullable<int> EstimateId { get; set; }
-        public string DeveloperCode { get; set; }
         public Nullable<int> RequestorId { get; set; }
+        public Nullable<int> DeveloperId { get; set; }
     
         public virtual DCustomer DCustomer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DJobTiming> DJobTimings { get; set; }
         public virtual DRequestor DRequestor { get; set; }
+        public virtual DDeveloper DDeveloper { get; set; }
     }
 }
