@@ -27,7 +27,7 @@ namespace TimeTracker.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;Initial Catalog=TimeTracker;Persist Security Info=True;U" +
-            "ser ID=GmiTimeTracker;Password=e7rhbN3Dw7zQ77k1kSUO")]
+            "ser ID=TimeTracker;Password=e7rhbN3Dw7zQ77k1kSUO")]
         public string TimeTrackerConnectionString {
             get {
                 return ((string)(this["TimeTrackerConnectionString"]));
