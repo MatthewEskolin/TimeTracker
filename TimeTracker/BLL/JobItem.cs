@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TimeTracker.DAL;
 
 namespace TimeTracker.BLL
 {
@@ -21,8 +22,41 @@ namespace TimeTracker.BLL
     }
     public class JobTiming
     {
+        public int JobTimingId { get; set; }
+        public int JobItemId { get; set; }
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
+        public int DeveloperId { get; set; }
 
 
+        public static JobTiming StartNewTiming(int jobItemId, int developerId)
+        {
+            var newTiming = _DAL.CreateNewJobTiming(jobItemId, developerId);
+            var newJobTiming = new JobTiming()
+            {
+                DeveloperId = newTiming.DeveloperId,
+                JobTimingId = newTiming.JobTimingId,
+                JobItemId = newTiming.JobItemId
+            };
 
+            newJobTiming.Start();
+
+            return newJobTiming;
+        }
+
+        public void Start()
+        {
+            StartTime = DateTime.Now;
+
+            throw new NotImplementedException();
+        }
+
+        public void Stop()
+        {
+
+        }
     }
+
+
+    
 }

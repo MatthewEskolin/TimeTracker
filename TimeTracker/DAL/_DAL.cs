@@ -51,5 +51,18 @@ namespace TimeTracker.DAL
             var ctx = new TimeTrackerEntities();
             return ctx.DRequestors.OrderBy(x => x.RequestorName).ToList();
         }
+
+        public static DJobTiming CreateNewJobTiming(int jobItemId, int developerId)
+        {
+            var ctx = new TimeTrackerEntities();
+            var newTiming = new DJobTiming();
+
+            newTiming.JobItemId = jobItemId;
+            newTiming.DeveloperId = developerId;
+            ctx.DJobTimings.Add(newTiming);
+            ctx.SaveChanges();
+            return newTiming;
+
+        }
     }
 }

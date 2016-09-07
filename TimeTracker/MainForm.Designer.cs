@@ -46,6 +46,7 @@
             this.developerCodeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.customerIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StartTimer = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.StopTimer = new System.Windows.Forms.DataGridViewButtonColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jobItemBindingSource)).BeginInit();
@@ -96,7 +97,8 @@
             this.estimateIdDataGridViewTextBoxColumn,
             this.developerCodeDataGridViewTextBoxColumn,
             this.customerIdDataGridViewTextBoxColumn,
-            this.StartTimer});
+            this.StartTimer,
+            this.StopTimer});
             this.dataGridView1.DataSource = this.jobItemBindingSource;
             this.dataGridView1.Location = new System.Drawing.Point(12, 86);
             this.dataGridView1.Name = "dataGridView1";
@@ -196,6 +198,21 @@
             this.StartTimer.HeaderText = "Start";
             this.StartTimer.Name = "StartTimer";
             this.StartTimer.ReadOnly = true;
+            this.StartTimer.Text = "Start";
+            this.StartTimer.UseColumnTextForButtonValue = true;
+            this.StartTimer.Width = 60;
+            // 
+            // StopTimer
+            // 
+            this.StopTimer.HeaderText = "Stop";
+            this.StopTimer.Name = "StopTimer";
+            this.StopTimer.ReadOnly = true;
+            this.StopTimer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.StopTimer.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.StopTimer.Text = "Stop";
+            this.StopTimer.ToolTipText = "Stop the Timing";
+            this.StopTimer.UseColumnTextForButtonValue = true;
+            this.StopTimer.Width = 60;
             // 
             // MainForm
             // 
@@ -237,6 +254,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn developerCodeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn customerIdDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewButtonColumn StartTimer;
+        private System.Windows.Forms.DataGridViewButtonColumn StopTimer;
     }
 }
 
