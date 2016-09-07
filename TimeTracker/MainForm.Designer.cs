@@ -45,6 +45,7 @@
             this.estimateIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.developerCodeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.customerIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StartTimer = new System.Windows.Forms.DataGridViewButtonColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jobItemBindingSource)).BeginInit();
@@ -94,13 +95,15 @@
             this.timeDataGridViewTextBoxColumn,
             this.estimateIdDataGridViewTextBoxColumn,
             this.developerCodeDataGridViewTextBoxColumn,
-            this.customerIdDataGridViewTextBoxColumn});
+            this.customerIdDataGridViewTextBoxColumn,
+            this.StartTimer});
             this.dataGridView1.DataSource = this.jobItemBindingSource;
             this.dataGridView1.Location = new System.Drawing.Point(12, 86);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(1494, 184);
             this.dataGridView1.TabIndex = 1;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // btnNewJobItem
             // 
@@ -187,6 +190,13 @@
             this.customerIdDataGridViewTextBoxColumn.Name = "customerIdDataGridViewTextBoxColumn";
             this.customerIdDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // StartTimer
+            // 
+            this.StartTimer.FillWeight = 70F;
+            this.StartTimer.HeaderText = "Start";
+            this.StartTimer.Name = "StartTimer";
+            this.StartTimer.ReadOnly = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -215,6 +225,7 @@
         private System.Windows.Forms.ToolStripMenuItem newDayToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btnNewJobItem;
+        private System.Windows.Forms.BindingSource jobItemBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn jobItemIdDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn startDateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn endDateDataGridViewTextBoxColumn;
@@ -225,7 +236,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn estimateIdDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn developerCodeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn customerIdDataGridViewTextBoxColumn;
-        private System.Windows.Forms.BindingSource jobItemBindingSource;
+        private System.Windows.Forms.DataGridViewButtonColumn StartTimer;
     }
 }
 

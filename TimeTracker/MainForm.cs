@@ -15,15 +15,9 @@ namespace TimeTracker
         {
             //dataGridView1.DataSource = _DAL.GetDailyItems();
             jobItemBindingSource.DataSource = _DAL.GetDailyItems();
-            
-            DataGridViewButtonColumn startButton = new DataGridViewButtonColumn();
-            startButton.HeaderText = "Start";
-            startButton.Text = "Start";
-            startButton.UseColumnTextForButtonValue = true;
-            dataGridView1.Columns.Add(startButton);
-
-            //changed
-
+           
+            var startButton = dataGridView1.Columns["StartTimer"] as DataGridViewButtonColumn;
+            if (startButton != null) { startButton.Text = "Start"; startButton.UseColumnTextForButtonValue = true; }
         }
 
         private void newDayToolStripMenuItem_Click(object sender, EventArgs e)
@@ -51,6 +45,19 @@ namespace TimeTracker
             //dataGridView1.DataSource = _DAL.GetDailyItems();
         }
 
-   
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var jobGrid = (DataGridView) sender;
+
+            if (jobGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex > 0)
+            {
+                var dataGridViewColumn = jobGrid.Columns["StartTime"];
+                if (dataGridViewColumn != null && e.ColumnIndex == dataGridViewColumn.Index)
+                {
+                    
+                }
+            }
+
+        }
     }
 }
