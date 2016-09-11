@@ -13,22 +13,23 @@ namespace TimeTracker.DAL
         {
             var ctx = new TimeTrackerEntities();
 
-            var jobsWithTimingToday = ctx.DJobItems.Where( x => 
-                                                           x.DJobTimings.Any( y => DbFunctions.TruncateTime(y.StartTime.Value) == DbFunctions.TruncateTime(DateTime.Now)) 
-                                                           || DbFunctions.TruncateTime(x.StartDate) == DbFunctions.TruncateTime(DateTime.Now)); 
-            var jobItemsToday = (from jobItems in jobsWithTimingToday
-
-                //from jobTimings in ctx.DJobTimings
-                //    .Where(x => x.JobItemId == jobItems.JobItemId)
-                //    .DefaultIfEmpty()
-
-                select jobItems);
+            var jobsWithTimingToday = ctx.DJobItems
+                .Include(x => x.DCustomer)
+                .Include(x => x.DRequestor)
+                .Include(x => x.DDeveloper)
+                .Where(x => x.DJobTimings.Any( y => DbFunctions.TruncateTime(y.StartTime.Value) == DbFunctions.TruncateTime(DateTime.Now)) || DbFunctions.TruncateTime(x.StartDate) == DbFunctions.TruncateTime(DateTime.Now)); 
+            IQueryable<DJobItem> jobItemsToday = (from jobItems in jobsWithTimingToday select jobItems);
 
             var result = jobItemsToday.Select(x => new JobItem()
             {
                 JobItemId = x.JobItemId,
                 JobTimings = x.DJobTimings.Select(y => new JobTiming()).ToList(),
-                Description = x.Description
+                Description = x.Description,
+                BillTo = x.DRequestor.RequestorName,
+                CustomerId = (int)x.CustomerId,
+                DeveloperCode = x.DDeveloper.DeveloperShortName,
+                RequestedBy = x.DRequestor.RequestorName
+                
             }).ToList();
 
             return result;
