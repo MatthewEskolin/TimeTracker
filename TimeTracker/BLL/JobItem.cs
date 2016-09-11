@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using TimeTracker.DAL;
-
 namespace TimeTracker.BLL
 {
     public class JobItem
@@ -31,6 +32,9 @@ namespace TimeTracker.BLL
 
         public static JobTiming StartNewTiming(int jobItemId, int developerId)
         {
+
+            var list = new List<int>();
+            list.Where(x => x.Equals(1));
             var newTiming = _DAL.CreateNewJobTiming(jobItemId, developerId);
             var newJobTiming = new JobTiming()
             {
@@ -58,5 +62,8 @@ namespace TimeTracker.BLL
     }
 
 
-    
+
+
+
+
 }
