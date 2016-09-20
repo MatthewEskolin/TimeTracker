@@ -10,6 +10,8 @@ namespace TimeTracker
 {
     static class Program
     {
+
+        private static readonly ILog logger = LogManager.GetLogger(typeof(Program));
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -25,6 +27,8 @@ namespace TimeTracker
 
         private static void InitializeLogging()
         {
+            logger.Warn("Test"); 
+            logger.Info("Application Initializing!");
            // XmlConfigurator.Configure(new System.IO.FileInfo(AssemblyLoadEventArgs[0]))
 
         }
