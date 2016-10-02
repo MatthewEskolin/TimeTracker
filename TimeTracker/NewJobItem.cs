@@ -2,20 +2,25 @@
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using TimeTracker.BLL;
 using TimeTracker.DAL;
 
 namespace TimeTracker
 {
     public partial class NewJobItem : Form
     {
-        private DateTime StartTime = DateTime.Now;
+        //private DateTime StartTime = DateTime.Now;
 
-        //public delegate EventHandler FormClosed;
+
+
+        public event EventHandler<NewTimingEventArgs> NewTimingCreated;
+
+     
 
         public NewJobItem()
         {
             InitializeComponent();
-            lblStartTime.Text = StartTime.ToString("G");
+            //lblStartTime.Text = StartTime.ToString("G");
             BindData();
         }
 
@@ -62,9 +67,9 @@ namespace TimeTracker
 
         private void btnSaveAndStart_Click(object sender, EventArgs e)
         {
-            var item = new DJobItem
+            var item = new JobItem
             {
-                StartDate = StartTime,
+                StartDate = DateTime.Now,
                 CustomerId = GetCustomerId(),
                 RequestorId = GetRequestorId(),
                 Description = tbDescription.Text,
@@ -72,13 +77,14 @@ namespace TimeTracker
                 DeveloperId =Properties.Settings.Default.Developer
             };
 
-            var ctx = new TimeTrackerEntities();
-            ctx.DJobItems.Add(item);
-            ctx.SaveChanges();
+            item.SaveToDb();
+            JobTiming.StartNewTiming(item.JobItemId, item.DeveloperId);
 
-            this.Close();
 
-            //TODO Start a new Timing.
+            var ne = new NewTimingEventArgs() {JobItemId = item.JobItemId};
+            NewTimingCreated?.Invoke(this,ne);
+
+            Close();
         }
 
 

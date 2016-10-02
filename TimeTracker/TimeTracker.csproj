@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\JobItem.cs" />
+    <Compile Include="BLL\JobTiming.cs" />
     <Compile Include="DAL\DCustomer.cs">
       <DependentUpon>TimeTrackerContext.tt</DependentUpon>
     </Compile>
@@ -120,6 +121,7 @@
     <Compile Include="NewJobItem.Designer.cs">
       <DependentUpon>NewJobItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewTimingEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -150,7 +152,9 @@
     <None Include="DAL\TimeTrackerContext.edmx.diagram">
       <DependentUpon>TimeTrackerContext.edmx</DependentUpon>
     </None>
-    <None Include="log4net.config" />
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\TimeTracker.BLL.JobItem.datasource" />
     <None Include="Properties\Settings.settings">

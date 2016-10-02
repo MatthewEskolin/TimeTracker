@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using log4net;
 using TimeTracker.BLL;
 
 namespace TimeTracker.DAL
 {
     public static class _DAL
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(_DAL));
 
         public static List<JobItem> GetDailyItems()
         {
@@ -35,6 +37,38 @@ namespace TimeTracker.DAL
             return result;
         }
 
+
+        public static JobItem GetJobItem(int jobItemId)
+        {
+            var ctx = new TimeTrackerEntities();
+
+            var jobItem = ctx.DJobItems
+                .Include(x => x.DCustomer)
+                .Include(x => x.DRequestor)
+                .Include(x => x.DDeveloper)
+                .Where(x => x.DJobTimings.Any(y => DbFunctions.TruncateTime(y.StartTime.Value) == DbFunctions.TruncateTime(DateTime.Now)) || DbFunctions.TruncateTime(x.StartDate) == DbFunctions.TruncateTime(DateTime.Now));
+            IQueryable<DJobItem> jobItemsToday = (from jobItems in jobItem select jobItems);
+
+            var result = jobItemsToday.Select(x => new JobItem()
+            {
+                JobItemId = x.JobItemId,
+                JobTimings = x.DJobTimings.Select(y => new JobTiming()).ToList(),
+                Description = x.Description,
+                BillTo = x.DRequestor.RequestorName,
+                CustomerId = (int) x.CustomerId,
+                DeveloperCode = x.DDeveloper.DeveloperShortName,
+                RequestedBy = x.DRequestor.RequestorName
+
+            }).FirstOrDefault(x => x.JobItemId == jobItemId);
+
+            if (result == null)
+            {
+                logger.Warn("attempted to get non-existent job item. returning null");
+            }
+
+            return result;
+        }
+
         public static List<DCustomer> GetCustomers()
         {
             var ctx = new TimeTrackerEntities();
@@ -56,10 +90,12 @@ namespace TimeTracker.DAL
         public static DJobTiming CreateNewJobTiming(int jobItemId, int developerId)
         {
             var ctx = new TimeTrackerEntities();
-            var newTiming = new DJobTiming();
+            var newTiming = new DJobTiming
+            {
+                JobItemId = jobItemId,
+                DeveloperId = developerId
+            };
 
-            newTiming.JobItemId = jobItemId;
-            newTiming.DeveloperId = developerId;
             ctx.DJobTimings.Add(newTiming);
             ctx.SaveChanges();
             return newTiming;

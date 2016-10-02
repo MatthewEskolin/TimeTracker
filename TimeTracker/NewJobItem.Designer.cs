@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.cbBillTo = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -36,23 +35,14 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cbRequestedBy = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.lblStartTime = new System.Windows.Forms.Label();
             this.btnSaveAndStart = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblDeveloperShortName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 51);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Start Date";
-            // 
             // cbBillTo
             // 
+            this.cbBillTo.DisplayMember = "Customers";
             this.cbBillTo.FormattingEnabled = true;
             this.cbBillTo.Location = new System.Drawing.Point(96, 83);
             this.cbBillTo.Name = "cbBillTo";
@@ -112,15 +102,6 @@
             this.label6.TabIndex = 11;
             this.label6.Text = "Developer";
             // 
-            // lblStartTime
-            // 
-            this.lblStartTime.AutoSize = true;
-            this.lblStartTime.Location = new System.Drawing.Point(93, 51);
-            this.lblStartTime.Name = "lblStartTime";
-            this.lblStartTime.Size = new System.Drawing.Size(35, 13);
-            this.lblStartTime.TabIndex = 12;
-            this.lblStartTime.Text = "label7";
-            // 
             // btnSaveAndStart
             // 
             this.btnSaveAndStart.Location = new System.Drawing.Point(8, 199);
@@ -158,7 +139,6 @@
             this.Controls.Add(this.lblDeveloperShortName);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSaveAndStart);
-            this.Controls.Add(this.lblStartTime);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cbRequestedBy);
             this.Controls.Add(this.label4);
@@ -166,7 +146,6 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.cbBillTo);
-            this.Controls.Add(this.label1);
             this.Name = "NewJobItem";
             this.Text = "NewJobItem";
             this.ResumeLayout(false);
@@ -175,8 +154,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbBillTo;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
@@ -184,7 +161,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cbRequestedBy;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label lblStartTime;
         private System.Windows.Forms.Button btnSaveAndStart;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lblDeveloperShortName;

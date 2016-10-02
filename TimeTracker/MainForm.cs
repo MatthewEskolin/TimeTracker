@@ -16,8 +16,6 @@ namespace TimeTracker
             //dataGridView1.DataSource = _DAL.GetDailyItems();
             jobItemBindingSource.DataSource = _DAL.GetDailyItems();
             dataGridView1.RowHeadersVisible = false;
-
-
         }
 
         private void newDayToolStripMenuItem_Click(object sender, EventArgs e)
@@ -27,9 +25,7 @@ namespace TimeTracker
 
         private void InitializeFormForNewDay()
         {
-            //dataGridView1.DataSource = _DAL.GetDailyItems();
             jobItemBindingSource.DataSource = _DAL.GetDailyItems();
-
         }
 
         private void btnNewJobItem_Click(object sender, EventArgs e)
@@ -42,8 +38,8 @@ namespace TimeTracker
         private void UpdateGrid(object sender, EventArgs e)
         {
             jobItemBindingSource.DataSource = _DAL.GetDailyItems();
-            //dataGridView1.DataSource = _DAL.GetDailyItems();
         }
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
