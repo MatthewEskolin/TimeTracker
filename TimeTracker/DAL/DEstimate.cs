@@ -12,16 +12,10 @@ namespace TimeTracker.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class DJobTiming
+    public partial class DEstimate
     {
-        public int JobTimingId { get; set; }
-        public int JobItemId { get; set; }
-        public Nullable<System.DateTime> StartTime { get; set; }
-        public Nullable<System.DateTime> EndTime { get; set; }
-        public int DeveloperId { get; set; }
-        public bool IsRunning { get; set; }
-    
-        public virtual DDeveloper DDeveloper { get; set; }
-        public virtual DJobItem DJobItem { get; set; }
+        public int EstimateId { get; set; }
+        public string EstimateDescription { get; set; }
+        public string EstimateShortName { get; set; }
     }
 }

@@ -22,6 +22,10 @@ namespace TimeTracker.BLL
         public int CustomerId { get; set; }
         public int DeveloperId { get; set; }
 
+        public JobItem()
+        {
+        }
+
         public void SaveToDb()
         {
             var item = new DJobItem
@@ -37,6 +41,30 @@ namespace TimeTracker.BLL
             var ctx = new TimeTrackerEntities();
             ctx.DJobItems.Add(item);
             ctx.SaveChanges();
+        }
+
+        public static JobItem NewJobItem(DateTime startDate, int custId, int requestId, string desc, int? estimateId, int devId)
+        {
+            var newItem = new JobItem()
+            {
+                StartDate = startDate,
+                CustomerId = custId,
+                RequestorId = requestId,
+                Description = desc,
+                EstimateId = estimateId,
+                DeveloperId = devId
+                
+            };
+            newItem.SaveToDb();
+
+            return newItem;
+        }
+
+        public void CreateNewTiming()
+        {
+            JobTiming newTiming = JobTiming.NewJobTiming(JobItemId, DeveloperId);
+            newTiming.Start();
+            JobTimings.Add(newTiming);
         }
     }
 }

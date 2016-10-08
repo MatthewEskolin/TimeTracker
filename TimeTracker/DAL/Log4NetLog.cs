@@ -12,16 +12,14 @@ namespace TimeTracker.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class DJobTiming
+    public partial class Log4NetLog
     {
-        public int JobTimingId { get; set; }
-        public int JobItemId { get; set; }
-        public Nullable<System.DateTime> StartTime { get; set; }
-        public Nullable<System.DateTime> EndTime { get; set; }
-        public int DeveloperId { get; set; }
-        public bool IsRunning { get; set; }
-    
-        public virtual DDeveloper DDeveloper { get; set; }
-        public virtual DJobItem DJobItem { get; set; }
+        public int Id { get; set; }
+        public System.DateTime Date { get; set; }
+        public string Thread { get; set; }
+        public string Level { get; set; }
+        public string Logger { get; set; }
+        public string Message { get; set; }
+        public string Exception { get; set; }
     }
 }

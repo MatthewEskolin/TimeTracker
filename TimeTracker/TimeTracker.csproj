@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -85,6 +85,9 @@
     <Compile Include="DAL\DDeveloper.cs">
       <DependentUpon>TimeTrackerContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DAL\DEstimate.cs">
+      <DependentUpon>TimeTrackerContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="DAL\DJobItem.cs">
       <DependentUpon>TimeTrackerContext.tt</DependentUpon>
     </Compile>
@@ -92,6 +95,9 @@
       <DependentUpon>TimeTrackerContext.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\DRequestor.cs">
+      <DependentUpon>TimeTrackerContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Log4NetLog.cs">
       <DependentUpon>TimeTrackerContext.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\TimeTrackerContext.Context.cs">

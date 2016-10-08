@@ -20,6 +20,14 @@
           <Property Name="DeveloperName" Type="varchar" MaxLength="200" />
           <Property Name="DeveloperShortName" Type="varchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="DEstimates">
+          <Key>
+            <PropertyRef Name="EstimateId" />
+          </Key>
+          <Property Name="EstimateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EstimateDescription" Type="nvarchar" MaxLength="1000" />
+          <Property Name="EstimateShortName" Type="nvarchar" MaxLength="20" />
+        </EntityType>
         <EntityType Name="DJobItems">
           <Key>
             <PropertyRef Name="JobItemId" />
@@ -43,6 +51,7 @@
           <Property Name="StartTime" Type="datetime" />
           <Property Name="EndTime" Type="datetime" />
           <Property Name="DeveloperId" Type="int" Nullable="false" />
+          <Property Name="IsRunning" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DRequestors">
           <Key>
@@ -50,6 +59,18 @@
           </Key>
           <Property Name="RequestorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RequestorName" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Log4NetLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Thread" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="Level" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Logger" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Message" Type="varchar" MaxLength="4000" Nullable="false" />
+          <Property Name="Exception" Type="varchar" MaxLength="4000" />
         </EntityType>
         <Association Name="FK_Developers_DeveloperId">
           <End Role="DDevelopers" Type="Self.DDevelopers" Multiplicity="1" />
@@ -114,9 +135,11 @@
         <EntityContainer Name="TimeTrackerContextStoreContainer">
           <EntitySet Name="DCustomers" EntityType="Self.DCustomers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DDevelopers" EntityType="Self.DDevelopers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DEstimates" EntityType="Self.DEstimates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DJobItems" EntityType="Self.DJobItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DJobTimings" EntityType="Self.DJobTimings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DRequestors" EntityType="Self.DRequestors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log4NetLog" EntityType="Self.Log4NetLog" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Developers_DeveloperId" Association="Self.FK_Developers_DeveloperId">
             <End Role="DDevelopers" EntitySet="DDevelopers" />
             <End Role="DJobTimings" EntitySet="DJobTimings" />
@@ -168,6 +191,8 @@
             <End Role="DDeveloper" EntitySet="DDevelopers" />
             <End Role="DJobItem" EntitySet="DJobItems" />
           </AssociationSet>
+          <EntitySet Name="Log4NetLog" EntityType="TimeTrackerContext.Log4NetLog" />
+          <EntitySet Name="DEstimates" EntityType="TimeTrackerContext.DEstimate" />
         </EntityContainer>
         <EntityType Name="DCustomer">
           <Key>
@@ -216,6 +241,7 @@
           <Property Name="DeveloperId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DDeveloper" Relationship="TimeTrackerContext.FK_Developers_DeveloperId1" FromRole="DJobTiming" ToRole="DDeveloper" />
           <NavigationProperty Name="DJobItem" Relationship="TimeTrackerContext.FK_JobItems_JobId1" FromRole="DJobTiming" ToRole="DJobItem" />
+          <Property Name="IsRunning" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_JobItems_CustomId">
           <End Type="TimeTrackerContext.DCustomer" Role="DCustomer" Multiplicity="0..1" />
@@ -285,6 +311,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Log4NetLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Thread" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Level" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Logger" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="Exception" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DEstimate">
+          <Key>
+            <PropertyRef Name="EstimateId" />
+          </Key>
+          <Property Name="EstimateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EstimateDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="EstimateShortName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -326,6 +372,7 @@
           <EntitySetMapping Name="DJobTimings">
             <EntityTypeMapping TypeName="TimeTrackerContext.DJobTiming">
               <MappingFragment StoreEntitySet="DJobTimings">
+                <ScalarProperty Name="IsRunning" ColumnName="IsRunning" />
                 <ScalarProperty Name="DeveloperId" ColumnName="DeveloperId" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
@@ -339,6 +386,28 @@
               <MappingFragment StoreEntitySet="DRequestors">
                 <ScalarProperty Name="RequestorName" ColumnName="RequestorName" />
                 <ScalarProperty Name="RequestorId" ColumnName="RequestorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log4NetLog">
+            <EntityTypeMapping TypeName="TimeTrackerContext.Log4NetLog">
+              <MappingFragment StoreEntitySet="Log4NetLog">
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Logger" ColumnName="Logger" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Thread" ColumnName="Thread" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DEstimates">
+            <EntityTypeMapping TypeName="TimeTrackerContext.DEstimate">
+              <MappingFragment StoreEntitySet="DEstimates">
+                <ScalarProperty Name="EstimateShortName" ColumnName="EstimateShortName" />
+                <ScalarProperty Name="EstimateDescription" ColumnName="EstimateDescription" />
+                <ScalarProperty Name="EstimateId" ColumnName="EstimateId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

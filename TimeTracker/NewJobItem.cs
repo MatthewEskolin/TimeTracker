@@ -67,24 +67,19 @@ namespace TimeTracker
 
         private void btnSaveAndStart_Click(object sender, EventArgs e)
         {
-            var item = new JobItem
-            {
-                StartDate = DateTime.Now,
-                CustomerId = GetCustomerId(),
-                RequestorId = GetRequestorId(),
-                Description = tbDescription.Text,
-                EstimateId = null,
-                DeveloperId =Properties.Settings.Default.Developer
-            };
-
-            item.SaveToDb();
-            JobTiming.StartNewTiming(item.JobItemId, item.DeveloperId);
-
+            var item =  JobItem.NewJobItem(DateTime.Now, GetCustomerId(), GetRequestorId(), tbDescription.Text, GetEstimateId(), Properties.Settings.Default.Developer);
+            item.CreateNewTiming();
+         
 
             var ne = new NewTimingEventArgs() {JobItemId = item.JobItemId};
             NewTimingCreated?.Invoke(this,ne);
 
             Close();
+        }
+
+        private int? GetEstimateId()
+        {
+            return null;
         }
 
 

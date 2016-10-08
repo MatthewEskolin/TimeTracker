@@ -14,25 +14,12 @@ namespace TimeTracker.BLL
         public DateTime? EndTime { get; set; }
         public int DeveloperId { get; set; }
 
-        private bool IsRunning { get; set; }
+        public bool IsRunning { get; set; }
 
-        public static JobTiming StartNewTiming(int jobItemId, int developerId)
+        public static JobTiming NewJobTiming(int jobItemId, int developerId)
         {
-
-            var list = new List<int>();
-            list.Where(x => x.Equals(1));
-            var newTiming = _DAL.CreateNewJobTiming(jobItemId, developerId);
-            var newJobTiming = new JobTiming()
-            {
-                DeveloperId = newTiming.DeveloperId,
-                JobTimingId = newTiming.JobTimingId,
-                JobItemId = newTiming.JobItemId,
-                IsRunning = true
-            };
-
-            newJobTiming.Start();
-
-            return newJobTiming;
+            JobTiming newTiming = _DAL.CreateNewJobTiming(jobItemId, developerId);
+            return newTiming;          
         }
 
 
@@ -48,16 +35,9 @@ namespace TimeTracker.BLL
 
         public void Start()
         {
-            StartTime = DateTime.Now;
-
-            var timing = new DJobTiming()
-            {
-                DeveloperId = this.DeveloperId
-            };
-
-            var ctx = new TimeTrackerEntities();
-            ctx.DJobTimings.Add(timing);
-            ctx.SaveChanges();
+            var startTime = _DAL.StartTiming(JobTimingId);
+            this.StartTime = startTime;
+            this.IsRunning = true;
 
         }
 

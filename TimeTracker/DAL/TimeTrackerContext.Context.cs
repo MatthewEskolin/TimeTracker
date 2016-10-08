@@ -30,5 +30,7 @@ namespace TimeTracker.DAL
         public virtual DbSet<DJobItem> DJobItems { get; set; }
         public virtual DbSet<DJobTiming> DJobTimings { get; set; }
         public virtual DbSet<DRequestor> DRequestors { get; set; }
+        public virtual DbSet<Log4NetLog> Log4NetLog { get; set; }
+        public virtual DbSet<DEstimate> DEstimates { get; set; }
     }
 }

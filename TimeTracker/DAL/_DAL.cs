@@ -13,6 +13,7 @@ namespace TimeTracker.DAL
 
         public static List<JobItem> GetDailyItems()
         {
+            //test comment.
             var ctx = new TimeTrackerEntities();
 
             var jobsWithTimingToday = ctx.DJobItems
@@ -87,19 +88,46 @@ namespace TimeTracker.DAL
             return ctx.DRequestors.OrderBy(x => x.RequestorName).ToList();
         }
 
-        public static DJobTiming CreateNewJobTiming(int jobItemId, int developerId)
+        public static JobTiming CreateNewJobTiming(int jobItemId, int developerId)
         {
             var ctx = new TimeTrackerEntities();
             var newTiming = new DJobTiming
             {
                 JobItemId = jobItemId,
-                DeveloperId = developerId
+                DeveloperId = developerId,
             };
 
             ctx.DJobTimings.Add(newTiming);
             ctx.SaveChanges();
-            return newTiming;
+
+            JobTiming newJobTiming = new JobTiming()
+            {
+                DeveloperId = newTiming.DeveloperId,
+                JobTimingId = newTiming.JobTimingId,
+                JobItemId = newTiming.JobItemId,
+                IsRunning = newTiming.IsRunning
+            };
+
+            return newJobTiming;
 
         }
+
+        public static DateTime StartTiming(int jobTimingId)
+        {
+            var startTime = DateTime.Now;
+
+            var ctx = new TimeTrackerEntities();
+            var timing = ctx.DJobTimings.FirstOrDefault(x => x.JobTimingId == jobTimingId);
+            if (timing != null)
+            {
+                timing.StartTime = startTime;
+                timing.IsRunning = true; 
+                ctx.SaveChanges();
+                return startTime;
+            }
+
+            throw new Exception("Could not start Timing!");
+        }
+
     }
 }
