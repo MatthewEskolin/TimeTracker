@@ -13,7 +13,7 @@ namespace TimeTracker.DAL
 
         public static List<JobItem> GetDailyItems()
         {
-            //test comment.
+            //test comment.//testing github connection
             var ctx = new TimeTrackerEntities();
 
             var jobsWithTimingToday = ctx.DJobItems
