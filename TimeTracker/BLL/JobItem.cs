@@ -24,6 +24,7 @@ namespace TimeTracker.BLL
 
         public JobItem()
         {
+            JobTimings = new List<JobTiming>();
         }
 
         public void SaveToDb()
@@ -41,6 +42,8 @@ namespace TimeTracker.BLL
             var ctx = new TimeTrackerEntities();
             ctx.DJobItems.Add(item);
             ctx.SaveChanges();
+
+            JobItemId = item.JobItemId;
         }
 
         public static JobItem NewJobItem(DateTime startDate, int custId, int requestId, string desc, int? estimateId, int devId)
@@ -56,7 +59,8 @@ namespace TimeTracker.BLL
                 
             };
             newItem.SaveToDb();
-
+            
+            
             return newItem;
         }
 
