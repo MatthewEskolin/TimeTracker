@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -14,14 +15,25 @@ namespace TimeTracker
 
 
         public event EventHandler<NewTimingEventArgs> NewTimingCreated;
-
-     
+        public bool isValid = true;
 
         public NewJobItem()
         {
             InitializeComponent();
             //lblStartTime.Text = StartTime.ToString("G");
+            AutoValidate = AutoValidate.Disable;
+            WireValidators();
             BindData();
+        }
+
+        private void WireValidators()
+        {
+            tbDescription.Validating += ValidateTextBox;
+        }
+
+        private void ValidateTextBox(object sender, CancelEventArgs e)
+        {
+            isValid = false;
         }
 
         private void BindData()
@@ -67,14 +79,20 @@ namespace TimeTracker
 
         private void btnSaveAndStart_Click(object sender, EventArgs e)
         {
-            var item =  JobItem.NewJobItem(DateTime.Now, GetCustomerId(), GetRequestorId(), tbDescription.Text, GetEstimateId(), Properties.Settings.Default.Developer);
-            item.CreateNewTiming();
-         
+            isValid = true;
+            ValidateChildren();
+            if (isValid)
+            {
+                var item =  JobItem.NewJobItem(DateTime.Now, GetCustomerId(), GetRequestorId(), tbDescription.Text, GetEstimateId(), Properties.Settings.Default.Developer);
+                item.CreateNewTiming();
+             
 
-            var ne = new NewTimingEventArgs() {JobItemId = item.JobItemId};
-            NewTimingCreated?.Invoke(this,ne);
+                var ne = new NewTimingEventArgs() {JobItemId = item.JobItemId};
+                NewTimingCreated?.Invoke(this,ne);
 
-            Close();
+                Close();
+                
+            }
         }
 
         private int? GetEstimateId()
