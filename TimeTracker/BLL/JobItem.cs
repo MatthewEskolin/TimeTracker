@@ -29,6 +29,8 @@ namespace TimeTracker.BLL
 
         public void SaveToDb()
         {
+            StartDate = DateTime.Now;
+
             var item = new DJobItem
             {
                 StartDate = this.StartDate,

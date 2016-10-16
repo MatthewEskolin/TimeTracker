@@ -26,7 +26,15 @@ namespace TimeTracker.DAL
             var result = jobItemsToday.Select(x => new JobItem()
             {
                 JobItemId = x.JobItemId,
-                JobTimings = x.DJobTimings.Select(y => new JobTiming()).ToList(),
+                JobTimings = x.DJobTimings.Select(y => new JobTiming()
+                {
+                    DeveloperId = y.DeveloperId,
+                    EndTime = y.EndTime,
+                    IsRunning  = y.IsRunning,
+                    JobItemId = y.JobItemId,
+                    JobTimingId = y.JobTimingId,
+                    StartTime = y.StartTime
+                }).ToList(),
                 Description = x.Description,
                 BillTo = x.DRequestor.RequestorName,
                 CustomerId = (int)x.CustomerId,

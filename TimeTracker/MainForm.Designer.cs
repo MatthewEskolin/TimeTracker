@@ -34,7 +34,9 @@
             this.newDayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btnNewJobItem = new System.Windows.Forms.Button();
-            this.jobItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.TimingIsActive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.StartTimer = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.StopTimer = new System.Windows.Forms.DataGridViewButtonColumn();
             this.jobItemIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.startDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.endDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,8 +47,8 @@
             this.estimateIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.developerCodeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.customerIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StartTimer = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.StopTimer = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.jobItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.lblTimer = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jobItemBindingSource)).BeginInit();
@@ -89,6 +91,7 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.jobItemIdDataGridViewTextBoxColumn,
             this.startDateDataGridViewTextBoxColumn,
+            this.TimingIsActive,
             this.endDateDataGridViewTextBoxColumn,
             this.billToDataGridViewTextBoxColumn,
             this.descriptionDataGridViewTextBoxColumn,
@@ -103,7 +106,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(12, 86);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(1494, 184);
+            this.dataGridView1.Size = new System.Drawing.Size(1084, 586);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -117,9 +120,35 @@
             this.btnNewJobItem.UseVisualStyleBackColor = true;
             this.btnNewJobItem.Click += new System.EventHandler(this.btnNewJobItem_Click);
             // 
-            // jobItemBindingSource
+            // TimingIsActive
             // 
-            this.jobItemBindingSource.DataSource = typeof(TimeTracker.BLL.JobItem);
+            this.TimingIsActive.DataPropertyName = "TimingIsActive";
+            this.TimingIsActive.HeaderText = "TimingIsActive";
+            this.TimingIsActive.Name = "TimingIsActive";
+            this.TimingIsActive.ReadOnly = true;
+            this.TimingIsActive.Visible = false;
+            // 
+            // StartTimer
+            // 
+            this.StartTimer.FillWeight = 70F;
+            this.StartTimer.HeaderText = "Start";
+            this.StartTimer.Name = "StartTimer";
+            this.StartTimer.ReadOnly = true;
+            this.StartTimer.Text = "Start";
+            this.StartTimer.UseColumnTextForButtonValue = true;
+            this.StartTimer.Width = 60;
+            // 
+            // StopTimer
+            // 
+            this.StopTimer.HeaderText = "Stop";
+            this.StopTimer.Name = "StopTimer";
+            this.StopTimer.ReadOnly = true;
+            this.StopTimer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.StopTimer.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.StopTimer.Text = "Stop";
+            this.StopTimer.ToolTipText = "Stop the Timing";
+            this.StopTimer.UseColumnTextForButtonValue = true;
+            this.StopTimer.Width = 60;
             // 
             // jobItemIdDataGridViewTextBoxColumn
             // 
@@ -192,33 +221,26 @@
             this.customerIdDataGridViewTextBoxColumn.Name = "customerIdDataGridViewTextBoxColumn";
             this.customerIdDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // StartTimer
+            // jobItemBindingSource
             // 
-            this.StartTimer.FillWeight = 70F;
-            this.StartTimer.HeaderText = "Start";
-            this.StartTimer.Name = "StartTimer";
-            this.StartTimer.ReadOnly = true;
-            this.StartTimer.Text = "Start";
-            this.StartTimer.UseColumnTextForButtonValue = true;
-            this.StartTimer.Width = 60;
+            this.jobItemBindingSource.DataSource = typeof(TimeTracker.Views.JobListViewItem);
+            this.jobItemBindingSource.CurrentChanged += new System.EventHandler(this.jobItemBindingSource_CurrentChanged);
             // 
-            // StopTimer
+            // lblTimer
             // 
-            this.StopTimer.HeaderText = "Stop";
-            this.StopTimer.Name = "StopTimer";
-            this.StopTimer.ReadOnly = true;
-            this.StopTimer.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.StopTimer.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.StopTimer.Text = "Stop";
-            this.StopTimer.ToolTipText = "Stop the Timing";
-            this.StopTimer.UseColumnTextForButtonValue = true;
-            this.StopTimer.Width = 60;
+            this.lblTimer.AutoSize = true;
+            this.lblTimer.Location = new System.Drawing.Point(1145, 86);
+            this.lblTimer.Name = "lblTimer";
+            this.lblTimer.Size = new System.Drawing.Size(35, 13);
+            this.lblTimer.TabIndex = 3;
+            this.lblTimer.Text = "label1";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1552, 696);
+            this.Controls.Add(this.lblTimer);
             this.Controls.Add(this.btnNewJobItem);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.menuStrip1);
@@ -245,6 +267,7 @@
         private System.Windows.Forms.BindingSource jobItemBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn jobItemIdDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn startDateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn TimingIsActive;
         private System.Windows.Forms.DataGridViewTextBoxColumn endDateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn billToDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
@@ -255,6 +278,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn customerIdDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewButtonColumn StartTimer;
         private System.Windows.Forms.DataGridViewButtonColumn StopTimer;
+        private System.Windows.Forms.Label lblTimer;
     }
 }
 
