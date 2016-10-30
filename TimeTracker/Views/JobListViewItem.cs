@@ -25,6 +25,7 @@ namespace TimeTracker.Views
         //flattened from JobItem.
         public bool TimingIsActive { get; set; }
 
+        public string ElapsedTime { get; set; }
 
         public static JobListViewItem CreateViewFromJobItem(JobItem item)
         {

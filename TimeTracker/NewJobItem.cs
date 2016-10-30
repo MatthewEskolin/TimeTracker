@@ -20,20 +20,41 @@ namespace TimeTracker
         public NewJobItem()
         {
             InitializeComponent();
-            //lblStartTime.Text = StartTime.ToString("G");
+
             AutoValidate = AutoValidate.Disable;
+
             WireValidators();
             BindData();
         }
 
         private void WireValidators()
         {
+            errorProvider1.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+
             tbDescription.Validating += ValidateTextBox;
+            cbBillTo.Validating += ValidateComboBox;
+            cbRequestedBy.Validating += ValidateComboBox;
+        }
+
+        private void ValidateComboBox(object sender, CancelEventArgs e)
+        {
+            var cntl = sender as ComboBox;
+            if (String.IsNullOrEmpty(cntl.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(cntl, "Required");
+            }
         }
 
         private void ValidateTextBox(object sender, CancelEventArgs e)
         {
-            isValid = false;
+            var errorControl = sender as TextBox;
+            if (String.IsNullOrEmpty(errorControl.Text))
+            {
+                isValid = false;
+                if (errorControl != null) errorProvider1.SetError(errorControl, "Yikes");
+            }
+
         }
 
         private void BindData()
@@ -79,6 +100,7 @@ namespace TimeTracker
 
         private void btnSaveAndStart_Click(object sender, EventArgs e)
         {
+            errorProvider1.Clear(); 
             isValid = true;
             ValidateChildren();
             if (isValid)

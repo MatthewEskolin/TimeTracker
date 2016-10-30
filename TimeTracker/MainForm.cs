@@ -52,7 +52,7 @@ namespace TimeTracker
             var isRunning = (bool)dataGridView1.Rows[e.RowIndex].Cells["TimingIsActive"].Value;
             if (isRunning)
             {
-                e.CellStyle.BackColor = Color.Green;
+                e.CellStyle.BackColor = Color.LightGreen;
             }
 
 

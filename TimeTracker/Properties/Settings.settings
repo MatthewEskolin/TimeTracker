@@ -10,7 +10,7 @@
       <Value Profile="(Default)">Data Source=.\SQLEXPRESS;Initial Catalog=TimeTracker;Persist Security Info=True;User ID=TimeTracker;Password=e7rhbN3Dw7zQ77k1kSUO</Value>
     </Setting>
     <Setting Name="Developer" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2</Value>
+      <Value Profile="(Default)">1002</Value>
     </Setting>
   </Settings>
 </SettingsFile>

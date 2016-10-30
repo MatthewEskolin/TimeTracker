@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.cbBillTo = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -38,6 +39,8 @@
             this.btnSaveAndStart = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblDeveloperShortName = new System.Windows.Forms.Label();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // cbBillTo
@@ -131,6 +134,10 @@
             this.lblDeveloperShortName.TabIndex = 15;
             this.lblDeveloperShortName.Text = "label2";
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // NewJobItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -148,6 +155,7 @@
             this.Controls.Add(this.cbBillTo);
             this.Name = "NewJobItem";
             this.Text = "NewJobItem";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,5 +172,6 @@
         private System.Windows.Forms.Button btnSaveAndStart;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lblDeveloperShortName;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

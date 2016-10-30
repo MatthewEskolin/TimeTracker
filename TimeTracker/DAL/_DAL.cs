@@ -39,7 +39,9 @@ namespace TimeTracker.DAL
                 BillTo = x.DRequestor.RequestorName,
                 CustomerId = (int)x.CustomerId,
                 DeveloperCode = x.DDeveloper.DeveloperShortName,
-                RequestedBy = x.DRequestor.RequestorName
+                RequestedBy = x.DRequestor.RequestorName,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate
                 
             }).ToList();
 
