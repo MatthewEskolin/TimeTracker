@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using TimeTracker.BLL;
 using TimeTracker.DAL;
+using TimeTracker.Utlities;
 using TimeTracker.Views;
 
 namespace TimeTracker
@@ -12,7 +14,8 @@ namespace TimeTracker
     public partial class MainForm : Form
     {
 
-        public Stopwatch stopWatch = new Stopwatch();
+        public List<JobItem> Items { get; set; }
+        public List<JobListViewItem> ViewItems { get; set; }
         public Timer timer = new Timer();
 
         public MainForm()
@@ -26,26 +29,72 @@ namespace TimeTracker
         private void InitializeTimer()
         {
             timer.Tick += Handletick;
-            timer.Interval = 1;//1 second;
+            timer.Interval =1000;//1 second;
             timer.Start();
-            
-            stopWatch.Start();
         }
 
 
         private void Handletick(object sender, EventArgs e)
         {
-            var time = stopWatch.Elapsed;
-            var timeString = RemoveMilliSeconds(time).ToString();
-            lblTimer.Text = timeString;
+            UpdateViewItemsFromJobItems();
+
+
+
+            //var time = stopWatch.Elapsed;
+
+            //var timeString = time.RemoveMilliSeconds().ToString();
+            //lblTimer.Text = timeString;
+        }
+
+        private void UpdateViewItemsFromJobItems()
+        {
+            SuspendLayout();
+            jobItemBindingSource.RaiseListChangedEvents = true;
+            jobItemBindingSource.Filter = "";
+
+
+            var count = 0;
+            foreach (var item in Items)
+            {
+
+                var viewItem = ViewItems.Where(x => x.JobItemId == item.JobItemId).FirstOrDefault();
+                if (viewItem != null)
+                {
+
+                    viewItem.ElapsedTime = item.GetActiveEllapsedTime().RemoveMilliSeconds().ToString();
+                    if (viewItem.TimingIsActive)
+                    {
+                        jobItemBindingSource.ResetItem(count);
+                    }
+                }
+                count++;
+            }
+
+            //jobItemBindingSource.ResetBindings(false);
+
+            jobItemBindingSource.SuspendBinding();
+            jobItemBindingSource.RaiseListChangedEvents = false;
+            jobItemBindingSource.Filter = "1=0";
+
+            ResumeLayout();
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             SetBindingSource();
             dataGridView1.CellFormatting += HighLightRunningTimers;
+            dataGridView1.CellFormatting += UpdateRuningTimers;
             dataGridView1.RowHeadersVisible = false;
         }
+
+        private void UpdateRuningTimers(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+
+
+        }
+
 
         private void HighLightRunningTimers(object sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -58,11 +107,7 @@ namespace TimeTracker
 
         }
 
-        public TimeSpan RemoveMilliSeconds(TimeSpan source)
-        {
-            var rtn = new TimeSpan(source.Hours, source.Minutes, source.Seconds);
-            return rtn;
-        }
+
 
         private void newDayToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -89,10 +134,15 @@ namespace TimeTracker
 
         public void SetBindingSource()
         {
-            var items = _DAL.GetDailyItems();
-            var viewItems = items.Select(JobListViewItem.CreateViewFromJobItem).ToList();
-            jobItemBindingSource.DataSource = viewItems;
+            Items = _DAL.GetDailyItems();
+            ViewItems = Items.Select(JobListViewItem.CreateViewFromJobItem).ToList();
+
+
+            jobItemBindingSource.DataSource = ViewItems;
         }
+
+    
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

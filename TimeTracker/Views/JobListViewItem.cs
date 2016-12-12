@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TimeTracker.BLL;
+using TimeTracker.Utlities;
 
 namespace TimeTracker.Views
 {
-    class JobListViewItem
+    public class JobListViewItem
     {
         public int JobItemId { get; set; }
         public DateTime? StartDate { get; set; }
@@ -43,6 +44,9 @@ namespace TimeTracker.Views
             newItem.CustomerId = item.CustomerId;
             newItem.DeveloperId = item.DeveloperId;
             newItem.TimingIsActive = item.JobTimings.Any(x => x.IsRunning);
+            newItem.ElapsedTime = item.GetActiveEllapsedTime().RemoveMilliSeconds().ToString();
+            
+
 
             return newItem;
 

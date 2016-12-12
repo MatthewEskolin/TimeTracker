@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using TimeTracker.DAL;
 namespace TimeTracker.BLL
@@ -71,6 +72,18 @@ namespace TimeTracker.BLL
             JobTiming newTiming = JobTiming.NewJobTiming(JobItemId, DeveloperId);
             newTiming.Start();
             JobTimings.Add(newTiming);
+        }
+
+        public void StartActiveTimer()
+        {
+            var activeTiming = JobTimings.FirstOrDefault(x => x.IsRunning);
+            activeTiming?.StartTimers();
+        }
+
+        public TimeSpan GetActiveEllapsedTime()
+        {
+            JobTiming activeTiming = JobTimings.FirstOrDefault(x => x.IsRunning);
+            return activeTiming.GetEllapsedTime();
         }
     }
 }

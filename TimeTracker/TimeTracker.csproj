@@ -136,6 +136,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="DAL\_DAL.cs" />
+    <Compile Include="Utlities\TimeSpanExtensions.cs" />
+    <Compile Include="Utlities\_Utilities.cs" />
     <Compile Include="Views\JobListViewItem.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

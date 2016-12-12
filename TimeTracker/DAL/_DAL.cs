@@ -44,6 +44,7 @@ namespace TimeTracker.DAL
                 EndDate = x.EndDate
                 
             }).ToList();
+            result.ForEach(x => x.StartActiveTimer());
 
             return result;
         }
