@@ -53,7 +53,7 @@ namespace TimeTracker.BLL
 
         public void Stop()
         {
-
+            MyStopWatch.Stop();
         }
     }
 }

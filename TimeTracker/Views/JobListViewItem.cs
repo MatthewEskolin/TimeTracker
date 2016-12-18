@@ -28,24 +28,45 @@ namespace TimeTracker.Views
 
         public string ElapsedTime { get; set; }
 
+
+        public static void FillViewFromJobItem(JobListViewItem views, JobItem item)
+        {
+            views.JobItemId = item.JobItemId;
+            views.StartDate = item.StartDate;
+            views.EndDate = item.EndDate;
+            views.BillTo = item.BillTo;
+            views.Description = item.Description;
+            views.RequestedBy = item.RequestedBy;
+            views.RequestorId = item.RequestorId;
+            views.Time = item.Time;
+            views.EstimateId = item.EstimateId;
+            views.DeveloperCode = item.DeveloperCode;
+            views.CustomerId = item.CustomerId;
+            views.DeveloperId = item.DeveloperId;
+            views.TimingIsActive = item.JobTimings.Any(x => x.IsRunning);
+            views.ElapsedTime = item.GetActiveEllapsedTime().RemoveMilliSeconds().ToString();
+        }
+
         public static JobListViewItem CreateViewFromJobItem(JobItem item)
         {
-            var newItem = new JobListViewItem();
-            newItem.JobItemId = item.JobItemId;
-            newItem.StartDate = item.StartDate;
-            newItem.EndDate = item.EndDate;
-            newItem.BillTo = item.BillTo;
-            newItem.Description = item.Description;
-            newItem.RequestedBy = item.RequestedBy;
-            newItem.RequestorId = item.RequestorId;
-            newItem.Time = item.Time;
-            newItem.EstimateId = item.EstimateId;
-            newItem.DeveloperCode = item.DeveloperCode;
-            newItem.CustomerId = item.CustomerId;
-            newItem.DeveloperId = item.DeveloperId;
-            newItem.TimingIsActive = item.JobTimings.Any(x => x.IsRunning);
-            newItem.ElapsedTime = item.GetActiveEllapsedTime().RemoveMilliSeconds().ToString();
-            
+            var newItem = new JobListViewItem
+            {
+                JobItemId = item.JobItemId,
+                StartDate = item.StartDate,
+                EndDate = item.EndDate,
+                BillTo = item.BillTo,
+                Description = item.Description,
+                RequestedBy = item.RequestedBy,
+                RequestorId = item.RequestorId,
+                Time = item.Time,
+                EstimateId = item.EstimateId,
+                DeveloperCode = item.DeveloperCode,
+                CustomerId = item.CustomerId,
+                DeveloperId = item.DeveloperId,
+                TimingIsActive = item.JobTimings.Any(x => x.IsRunning),
+                ElapsedTime = item.GetActiveEllapsedTime().RemoveMilliSeconds().ToString()
+            };
+
 
 
             return newItem;

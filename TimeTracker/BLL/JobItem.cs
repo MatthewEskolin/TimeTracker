@@ -85,5 +85,11 @@ namespace TimeTracker.BLL
             JobTiming activeTiming = JobTimings.FirstOrDefault(x => x.IsRunning);
             return activeTiming.GetEllapsedTime();
         }
+
+        public JobTiming GetActiveTiming()
+        {
+            return JobTimings.FirstOrDefault(x => x.IsRunning);
+
+        }
     }
 }

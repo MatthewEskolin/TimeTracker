@@ -35,7 +35,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.jobItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnNewJobItem = new System.Windows.Forms.Button();
-            this.jobItemIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.JobItemId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.startDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TimingIsActive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.endDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -89,7 +89,7 @@
             this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.jobItemIdDataGridViewTextBoxColumn,
+            this.JobItemId,
             this.startDateDataGridViewTextBoxColumn,
             this.TimingIsActive,
             this.endDateDataGridViewTextBoxColumn,
@@ -126,13 +126,13 @@
             this.btnNewJobItem.UseVisualStyleBackColor = true;
             this.btnNewJobItem.Click += new System.EventHandler(this.btnNewJobItem_Click);
             // 
-            // jobItemIdDataGridViewTextBoxColumn
+            // JobItemId
             // 
-            this.jobItemIdDataGridViewTextBoxColumn.DataPropertyName = "JobItemId";
-            this.jobItemIdDataGridViewTextBoxColumn.HeaderText = "JobItemId";
-            this.jobItemIdDataGridViewTextBoxColumn.Name = "jobItemIdDataGridViewTextBoxColumn";
-            this.jobItemIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.jobItemIdDataGridViewTextBoxColumn.Visible = false;
+            this.JobItemId.DataPropertyName = "JobItemId";
+            this.JobItemId.HeaderText = "JobItemId";
+            this.JobItemId.Name = "JobItemId";
+            this.JobItemId.ReadOnly = true;
+            this.JobItemId.Visible = false;
             // 
             // startDateDataGridViewTextBoxColumn
             // 
@@ -263,7 +263,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btnNewJobItem;
         private System.Windows.Forms.BindingSource jobItemBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn jobItemIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn JobItemId;
         private System.Windows.Forms.DataGridViewTextBoxColumn startDateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn TimingIsActive;
         private System.Windows.Forms.DataGridViewTextBoxColumn endDateDataGridViewTextBoxColumn;
