@@ -46,24 +46,31 @@ namespace TimeTracker
 
 
             var count = 0;
-            foreach (var item in Items)
+            foreach (var viewItem in ViewItems)
             {
 
-                var viewItem = ViewItems.FirstOrDefault(x => x.JobItemId == item.JobItemId);
-                if (viewItem != null)
+                var item = Items.FirstOrDefault(x => x.JobItemId == viewItem.JobItemId);
+                if (item != null)
                 {
-                    //viewItem = JobListViewItem.CreateViewFromJobItem(item);;
 
                     viewItem.ElapsedTime = item.GetActiveEllapsedTime().RemoveMilliSeconds().ToString();
                     
-                    JobListViewItem.CreateViewFromJobItem()
+                    JobListViewItem.FillViewFromJobItem(viewItem,item);
 
                     if (viewItem.TimingIsActive)
                     {
-                        jobItemBindingSource.ResetItem(count);
+                        try
+                        {
+                            jobItemBindingSource.ResetItem(count);
+                        }
+                        catch (Exception e)
+                        {
+                            // ignored
+                        }
                     }
                 }
                 count++;
+                //if (count > jobItemBindingSource.Count) break;
             }
 
             jobItemBindingSource.SuspendBinding();
@@ -87,13 +94,41 @@ namespace TimeTracker
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Ignore clicks that are not in our 
-            if (e.ColumnIndex == dataGridView1.Columns["StopTimer"].Index && e.RowIndex >= 0)
+
+
+            //var targetCell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            //if (targetCell.ReadOnly) return;
+
+            if (ClickedCell(e.ColumnIndex,e.RowIndex,"StopTimer"))
             {
                 var item = GetJobItemByRowIndex(e.RowIndex);
+                var viewItem = ViewItems.FirstOrDefault(x => x.JobItemId == item.JobItemId);
                 var timing = item.GetActiveTiming();
                 timing.Stop();
+
+                JobListViewItem.FillViewFromJobItem(viewItem, item);
+                jobItemBindingSource.ResetItem(e.RowIndex);
+
+                ShowCelll(dataGridView1, e.RowIndex, "StartTimer");
+                HideCell(dataGridView1, e.RowIndex, "StopTimer");
+
             }
+            else if (ClickedCell(e.ColumnIndex, e.RowIndex, "StartTimer"))
+            {
+                
+                var item = GetJobItemByRowIndex(e.RowIndex);
+                var viewItem = ViewItems.FirstOrDefault(x => x.JobItemId == item.JobItemId);
+                item.CreateNewTiming();
+
+                JobListViewItem.FillViewFromJobItem(viewItem, item);
+                jobItemBindingSource.ResetItem(e.RowIndex);
+            }
+        }
+
+
+        private  bool ClickedCell(int columnIndex, int rowIndex, string cellName)
+        {
+            return columnIndex == dataGridView1.Columns[cellName].Index && rowIndex >= 0;
         }
 
         private JobItem GetJobItemByRowIndex(int index)
@@ -128,17 +163,28 @@ namespace TimeTracker
 
         private void HideCell(DataGridView dataGrid, int rowIndex, string cellName)
         {
+            return;
             var hiddenButtonStyle = new DataGridViewCellStyle { Padding = new Padding(100, 0, 0, 0) };
             var targetCell = dataGrid.Rows[rowIndex].Cells[cellName];
+
+
+
+            SavedStyle = targetCell.Style.Clone();
+
             targetCell.Style = hiddenButtonStyle;
+            targetCell.ReadOnly = true;
 
         }
 
+        public DataGridViewCellStyle SavedStyle { get; set; }
+
         private void ShowCelll(DataGridView dataGrid, int rowIndex, string cellName)
         {
-            var hiddenButtonStyle = new DataGridViewCellStyle { Padding = new Padding(0, 0, 0, 0) };
             var targetCell = dataGrid.Rows[rowIndex].Cells[cellName];
-            targetCell.Style = hiddenButtonStyle;
+            //var hiddenButtonStyle = new DataGridViewCellStyle { Padding = new Padding(targetCell.OwningColumn.Width, 0, 0, 0) };
+            var hiddenButtonStyle = new DataGridViewCellStyle { Padding = new Padding(5, 0, 0, 0) };
+            targetCell.Style = SavedStyle;
+            targetCell.ReadOnly = false;
         }
 
         private void UpdateRuningTimers(object sender, DataGridViewCellFormattingEventArgs e)
@@ -230,7 +276,9 @@ namespace TimeTracker
 
         private void UpdateGrid(object sender, EventArgs e)
         {
+            timer.Stop();
             SetBindingSource();
+            timer.Start();
         }
 
         public void SetBindingSource()

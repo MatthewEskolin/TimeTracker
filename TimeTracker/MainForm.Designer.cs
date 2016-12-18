@@ -33,8 +33,8 @@
             this.trackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newDayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.jobItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnNewJobItem = new System.Windows.Forms.Button();
+            this.jobItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.JobItemId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.startDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TimingIsActive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -111,11 +111,6 @@
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // jobItemBindingSource
-            // 
-            this.jobItemBindingSource.DataSource = typeof(TimeTracker.Views.JobListViewItem);
-            this.jobItemBindingSource.CurrentChanged += new System.EventHandler(this.jobItemBindingSource_CurrentChanged);
-            // 
             // btnNewJobItem
             // 
             this.btnNewJobItem.Location = new System.Drawing.Point(12, 40);
@@ -125,6 +120,11 @@
             this.btnNewJobItem.Text = "New Timer";
             this.btnNewJobItem.UseVisualStyleBackColor = true;
             this.btnNewJobItem.Click += new System.EventHandler(this.btnNewJobItem_Click);
+            // 
+            // jobItemBindingSource
+            // 
+            this.jobItemBindingSource.DataSource = typeof(TimeTracker.Views.JobListViewItem);
+            this.jobItemBindingSource.CurrentChanged += new System.EventHandler(this.jobItemBindingSource_CurrentChanged);
             // 
             // JobItemId
             // 
