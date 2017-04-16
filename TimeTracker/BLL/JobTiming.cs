@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using log4net;
 using TimeTracker.DAL;
 
 namespace TimeTracker.BLL
 {
     public class JobTiming
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(JobTiming));
+
 
         public int JobTimingId { get; set; }
         public int JobItemId { get; set; }
@@ -30,6 +33,9 @@ namespace TimeTracker.BLL
         public JobTiming()
         {
             MyStopWatch = new Stopwatch();
+             logger.Debug("Caution: Using Default Developer ID.");
+            DeveloperId = Properties.Settings.Default.Developer;
+
         }
 
         public void StartTimers()
@@ -53,7 +59,15 @@ namespace TimeTracker.BLL
 
         public void Stop()
         {
+            IsRunning = false;
             MyStopWatch.Stop();
+            EndTime = DateTime.Now;
+
+            var ctx = new TimeTrackerEntities();
+            DJobTiming timing = ctx.DJobTimings.FirstOrDefault(x => x.JobTimingId == JobTimingId);
+            timing.EndTime = EndTime;
+            timing.IsRunning = false;
+            ctx.SaveChanges();
         }
     }
 }

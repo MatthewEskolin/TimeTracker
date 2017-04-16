@@ -26,6 +26,7 @@ namespace TimeTracker.BLL
         public JobItem()
         {
             JobTimings = new List<JobTiming>();
+            DeveloperId = Properties.Settings.Default.Developer;
         }
 
         public void SaveToDb()
@@ -83,7 +84,11 @@ namespace TimeTracker.BLL
         public TimeSpan GetActiveEllapsedTime()
         {
             JobTiming activeTiming = JobTimings.FirstOrDefault(x => x.IsRunning);
-            return activeTiming.GetEllapsedTime();
+            if (activeTiming != null)
+            {
+                return activeTiming.GetEllapsedTime();
+            }
+            return TimeSpan.Zero;
         }
 
         public JobTiming GetActiveTiming()
