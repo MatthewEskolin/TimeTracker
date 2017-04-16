@@ -86,7 +86,6 @@ namespace TimeTracker
             SetBindingSource();
             dataGridView1.CellFormatting += HighLightRunningTimers;
             dataGridView1.CellFormatting += SetButtonVisibility;
-            dataGridView1.CellFormatting += UpdateRuningTimers;
             dataGridView1.CellContentClick += dataGridView1_CellClick;
             dataGridView1.RowHeadersVisible = false;
         }
@@ -107,6 +106,7 @@ namespace TimeTracker
                 timing.Stop();
 
                 JobListViewItem.FillViewFromJobItem(viewItem, item);
+                dataGridView1.InvalidateRow(e.RowIndex);
                 jobItemBindingSource.ResetItem(e.RowIndex);
 
                 ShowCelll(dataGridView1, e.RowIndex, "StartTimer");
@@ -122,6 +122,12 @@ namespace TimeTracker
 
                 JobListViewItem.FillViewFromJobItem(viewItem, item);
                 jobItemBindingSource.ResetItem(e.RowIndex);
+
+                dataGridView1.InvalidateRow(e.RowIndex);
+
+                ShowCelll(dataGridView1, e.RowIndex, "StopTimer");
+                HideCell(dataGridView1, e.RowIndex, "StartTimer");
+
             }
         }
 
@@ -180,6 +186,7 @@ namespace TimeTracker
 
         private void ShowCelll(DataGridView dataGrid, int rowIndex, string cellName)
         {
+            return;
             var targetCell = dataGrid.Rows[rowIndex].Cells[cellName];
             //var hiddenButtonStyle = new DataGridViewCellStyle { Padding = new Padding(targetCell.OwningColumn.Width, 0, 0, 0) };
             var hiddenButtonStyle = new DataGridViewCellStyle { Padding = new Padding(5, 0, 0, 0) };
@@ -187,12 +194,7 @@ namespace TimeTracker
             targetCell.ReadOnly = false;
         }
 
-        private void UpdateRuningTimers(object sender, DataGridViewCellFormattingEventArgs e)
-        {
 
-
-
-        }
 
 
         private void HighLightRunningTimers(object sender, DataGridViewCellFormattingEventArgs e)
@@ -201,10 +203,10 @@ namespace TimeTracker
             if (isRunning)
             {
                 e.CellStyle.BackColor = Color.LightGreen;
-
-                
-
-
+            }
+            else
+            {
+                e.CellStyle.BackColor = Color.WhiteSmoke;
             }
 
 
