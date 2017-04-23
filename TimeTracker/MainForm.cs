@@ -40,9 +40,9 @@ namespace TimeTracker
 
         private void UpdateViewItemsFromJobItems()
         {
-            SuspendLayout();
-            jobItemBindingSource.RaiseListChangedEvents = true;
-            jobItemBindingSource.Filter = "";
+            //SuspendLayout();
+            //jobItemBindingSource.RaiseListChangedEvents = true;
+            //jobItemBindingSource.Filter = "";
 
 
             var count = 0;
@@ -73,11 +73,11 @@ namespace TimeTracker
                 //if (count > jobItemBindingSource.Count) break;
             }
 
-            jobItemBindingSource.SuspendBinding();
-            jobItemBindingSource.RaiseListChangedEvents = false;
-            jobItemBindingSource.Filter = "1=0";
+            //jobItemBindingSource.SuspendBinding();
+            //jobItemBindingSource.RaiseListChangedEvents = false;
+            //jobItemBindingSource.Filter = "1=0";
 
-            ResumeLayout();
+            //ResumeLayout();
         }
 
 
@@ -287,8 +287,6 @@ namespace TimeTracker
         {
             Items = _DAL.GetDailyItems();
             ViewItems = Items.Select(JobListViewItem.CreateViewFromJobItem).ToList();
-
-
             jobItemBindingSource.DataSource = ViewItems;
         }
 
